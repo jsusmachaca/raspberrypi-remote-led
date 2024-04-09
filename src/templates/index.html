@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <title>Raspberry LED</title>
+</head>
+<body>
+  <header>
+    <img id="logo" src="{{ url_for('static', filename='images/logo1.png') }}" alt="">
+  </header>
+  <main>
+    <section>
+      <article>
+        <button id="on">Encender</button>
+        <button id="off">Apagar</button>
+      </article>
+      <article>
+        <pre id="messages"></pre>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    const $logo = document.getElementById('logo')
+    const $buttonOn = document.getElementById('on')
+    const $buttonOff = document.getElementById('off')
+    const $pre = document.getElementById('messages')
+
+    $buttonOn.addEventListener('click', () => {
+      $logo.classList.add('light')
+      fetch('/led-on', {method: 'post'})
+        .then(res => res.json())
+        .then(json => {
+          console.log(json)
+          $pre.textContent = JSON.stringify(json, null, 2)
+        })
+    })
+
+    $buttonOff.addEventListener('click', () => {
+      $logo.classList.remove('light')
+      fetch('/led-off', {method: 'post'})
+        .then(res => res.json())
+        .then(json => {
+          console.log(json)
+          $pre.textContent = JSON.stringify(json, null, 2)
+        })
+    })
+
+  </script>
+</body>
+</html>
+
+
+
