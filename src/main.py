@@ -14,9 +14,6 @@ def led_on():
     raspberry.on()
     return jsonify({'message': 'led is on'})
 
-def coco():
-    print('loco')
-
 @app.route('/led-off', methods=['POST'])
 def led_off():
     raspberry.off()
