@@ -1,9 +1,9 @@
 from flask import Flask, render_template, jsonify
-from rpi.raspberry import Raspberry
+from gpiozero import LED
+
 
 app = Flask(__name__)
-
-raspberry = Raspberry(7)
+led = LED(4)
 
 @app.route('/')
 def index():
@@ -11,12 +11,12 @@ def index():
 
 @app.route('/led-on', methods=['POST'])
 def led_on():
-    raspberry.on()
+    led.on()
     return jsonify({'message': 'led is on'})
 
 @app.route('/led-off', methods=['POST'])
 def led_off():
-    raspberry.off()
+    led.off()
     return jsonify({'message': 'led is off'})
 
 if __name__ == '__main__':
