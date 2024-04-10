@@ -1,9 +1,12 @@
 from flask import Flask, render_template, jsonify
-from gpiozero import LED
+from gpiod import Chip, LINE_REQ_DIR_OUT
 
 
 app = Flask(__name__)
-led = LED(4)
+
+chip = Chip("gpiochip4")
+line = chip.get_line(17)
+line.request(consumer="app", type=LINE_REQ_DIR_OUT)
 
 @app.route('/')
 def index():
@@ -11,13 +14,10 @@ def index():
 
 @app.route('/led-on', methods=['POST'])
 def led_on():
-    led.on()
+    line.set_value(1)
     return jsonify({'message': 'led is on'})
 
 @app.route('/led-off', methods=['POST'])
 def led_off():
-    led.off()
+    line.set_value(0)
     return jsonify({'message': 'led is off'})
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
