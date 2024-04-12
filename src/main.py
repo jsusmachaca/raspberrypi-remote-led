@@ -21,3 +21,7 @@ def led_on():
 def led_off():
     line.set_value(0)
     return jsonify({'message': 'led is off'})
+
+
+if __main__ == '__main__':
+    app.run(host='0.0.0.0')
